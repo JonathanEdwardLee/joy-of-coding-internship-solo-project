@@ -17,7 +17,12 @@ export default function Home() {
 
   useEffect(() => {
     fetch("/api/tasks")
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then((data) => setTasks(data))
       .catch((error) => console.error("Error fetching tasks:", error));
   }, []);
@@ -30,9 +35,16 @@ export default function Home() {
       },
       body: JSON.stringify(task),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((error) => {
+            throw new Error(error.error);
+          });
+        }
+        return response.json();
+      })
       .then((newTask) => setTasks([...tasks, newTask]))
-      .catch((error) => console.error("Error adding task:", error));
+      .catch((error) => console.error("Error adding task:", error.message));
   };
 
   const updateTask = (task: Task) => {
@@ -43,22 +55,34 @@ export default function Home() {
       },
       body: JSON.stringify(task),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((error) => {
+            throw new Error(error.error);
+          });
+        }
+        return response.json();
+      })
       .then((updatedTask) => {
         setTasks(tasks.map((t) => (t.id === updatedTask.id ? updatedTask : t)));
         setEditingTask(null);
       })
-      .catch((error) => console.error("Error updating task:", error));
+      .catch((error) => console.error("Error updating task:", error.message));
   };
 
   const deleteTask = (id: number) => {
     fetch(`/api/tasks/${id}`, {
       method: "DELETE",
     })
-      .then(() => {
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((error) => {
+            throw new Error(error.error);
+          });
+        }
         setTasks(tasks.filter((task) => task.id !== id));
       })
-      .catch((error) => console.error("Error deleting task:", error));
+      .catch((error) => console.error("Error deleting task:", error.message));
   };
 
   const handleSaveTask = (task: {
@@ -66,7 +90,6 @@ export default function Home() {
     description: string;
     dueDate: string;
   }) => {
-    console.log("Saving task:", task);
     if (editingTask) {
       updateTask({ ...editingTask, ...task });
     } else {
