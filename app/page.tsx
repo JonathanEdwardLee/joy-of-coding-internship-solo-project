@@ -38,7 +38,11 @@ export default function Home() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...task, username }),
+      body: JSON.stringify({
+        description: task.description,
+        dueDate: task.dueDate,
+        username,
+      }),
     })
       .then((response) => {
         if (!response.ok) {
