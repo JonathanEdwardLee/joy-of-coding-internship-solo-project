@@ -17,11 +17,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ error: 'Error fetching task' });
     }
   } else if (req.method === 'PUT') {
-    const { name, description, dueDate } = req.body;
+    const { description, dueDate, username } = req.body;
+
     try {
       const updatedTask = await prisma.task.update({
         where: { id: Number(id) },
-        data: { name, description, dueDate: new Date(dueDate) },
+        data: { description, dueDate: new Date(dueDate), username },
       });
       res.status(200).json(updatedTask);
     } catch (error) {

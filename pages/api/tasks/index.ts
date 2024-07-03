@@ -13,19 +13,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ error: 'Error fetching tasks' });
     }
   } else if (req.method === 'POST') {
-    const { name, description, dueDate } = req.body;
-    console.log("Received task data:", req.body); // Log the received task data
+    const { description, dueDate, username } = req.body;
+
     try {
-      if (!name || !description || !dueDate) {
-        throw new Error("Missing required fields");
+      const user = await prisma.user.findUnique({
+        where: { username },
+      });
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
       }
+
       const newTask = await prisma.task.create({
-        data: { name, description, dueDate: new Date(dueDate) },
+        data: { 
+          description, 
+          dueDate: new Date(dueDate), 
+          user: { connect: { id: user.id } } 
+        },
       });
       res.status(201).json(newTask);
     } catch (error) {
       console.error("Detailed error creating task:", error);
-      res.status(500).json({ error: `Error creating task: ${error.message}` }); // Return detailed error message
+      res.status(500).json({ error: `Error creating task: ${error.message}` });
     }
   } else {
     res.status(405).json({ error: 'Method not allowed' });
