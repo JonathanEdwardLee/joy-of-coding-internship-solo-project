@@ -122,9 +122,9 @@ export default function Home() {
         />
       )}
       {isAuthenticated && (
-        <h2 className="text-xl font-bold mb-4">Welcome, {username}</h2>
+        <h2 className="text-2xl font-bold mb-4">Welcome, {username}</h2>
       )}
-      <h1 className="text-2xl font-bold mb-4">Task Manager</h1>
+      <h1 className="text-4xl font-bold mb-4">Enter Your Task</h1>
       <TaskForm task={editingTask} onSave={handleSaveTask} />
       <TaskList
         tasks={tasks}

@@ -23,7 +23,7 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <html lang="en">
       <Head>
-        <title>Jon's Bad Ass Task Manager</title>
+        <title>Simple Task Manager</title>
         <meta
           name="description"
           content="A simple task management application"
@@ -32,21 +32,21 @@ export default function Layout({ children }: LayoutProps) {
       </Head>
       <body>
         <Theme accentColor="purple" grayColor="sand" radius="full">
-          <header className="bg-purple-600 text-white p-4">
+          <header className="bg-purple-900 text-white p-4">
             <div className="container flex-between">
-              <h1 className="text-2xl font-bold">Jon's Bad Ass Task Manager</h1>
+              <h1 className="text-5xl font-bold">Simple Task Manager</h1>
               <button
                 onClick={toggleTheme}
-                className="bg-purple-800 text-white p-2 rounded-md"
+                className="bg-purple-700 text-white p-2 rounded-md"
               >
                 {darkMode ? "Pastel Mode" : "Dark Mode"}
               </button>
             </div>
           </header>
           <main className="container">{children}</main>
-          <footer className="bg-purple-600 text-white p-4 mt-4">
+          <footer className="bg-purple-900 text-white text-2xl p-4 mt-4">
             <div className="container text-center">
-              © 2024 Jon's Bad Ass Task Manager. All rights reserved.
+              © 2024 Simple Task Manager. All rights reserved.
             </div>
           </footer>
         </Theme>

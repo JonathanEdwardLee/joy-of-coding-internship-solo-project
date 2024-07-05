@@ -1,5 +1,5 @@
 /* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Honk:MORF,SHLN@35,41.8&display=swap');
 
 /* Tailwind CSS Directives */
 @tailwind base;
@@ -10,7 +10,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  font-family: 'Permanent Marker', sans-serif;
+  font-family: 'Honk', sans-serif;
 }
 
 a {
@@ -27,11 +27,11 @@ a {
 }
 
 .card-header {
-  @apply text-lg font-semibold mb-2;
+  @apply text-3xl font-semibold mb-2;
 }
 
 .card-body {
-  @apply text-sm text-gray-400;
+  @apply text-lg text-gray-400;
 }
 
 input, textarea {
@@ -40,7 +40,7 @@ input, textarea {
 }
 
 input:focus, textarea:focus {
-  @apply border-purple-500;
+  @apply border-purple-100;
 }
 
 /* Button Styles */
@@ -55,7 +55,7 @@ body[data-theme='dark'] {
 }
 
 body[data-theme='pastel'] {
-  background-color: #FADADD;
+  background-color: #dea7dd;
   color: black;
 }
 
