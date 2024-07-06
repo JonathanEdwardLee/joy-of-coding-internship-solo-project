@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import TaskList from "./components/TaskList";
 import TaskForm from "./components/TaskForm";
 import AuthPopup from "./components/AuthPopup";
+import { useRouter } from "next/navigation";
 
 interface Task {
   id: number;
@@ -17,6 +17,7 @@ export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showAuthPopup, setShowAuthPopup] = useState(true);
   const [username, setUsername] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -103,7 +104,6 @@ export default function Home() {
   };
 
   const handleAuthenticate = (username: string, password: string) => {
-    // Replace with real authentication logic
     if (username && password) {
       setUsername(username);
       setIsAuthenticated(true);
@@ -126,13 +126,12 @@ export default function Home() {
       )}
       <h1 className="text-4xl font-bold mb-4">Enter Your Task</h1>
       <TaskForm task={editingTask} onSave={handleSaveTask} />
-      <TaskList
-        tasks={tasks}
-        onEdit={(id) =>
-          setEditingTask(tasks.find((task) => task.id === id) || null)
-        }
-        onDelete={deleteTask}
-      />
+      <button
+        onClick={() => router.push("/tasks")}
+        className="px-4 py-2 bg-purple-900 text-white text-2xl rounded-md mt-4"
+      >
+        View Tasks
+      </button>
     </div>
   );
 }
