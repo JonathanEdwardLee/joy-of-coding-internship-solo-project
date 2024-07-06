@@ -117,6 +117,7 @@ export default function Home() {
     } else {
       addTask(task);
     }
+    router.push("/tasks");
   };
 
   const handleAuthenticate = (username: string, password: string) => {

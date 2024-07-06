@@ -46,6 +46,15 @@ input:focus, textarea:focus {
 /* Button Styles */
 button {
   @apply cursor-pointer;
+
+}
+button:hover {
+  background-color: #4B0082; /* Darker shade of purple */
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(75, 0, 130, 0.5); /* Indigo shadow */
 }
 
 /* Custom Styles for Dark Mode and Pastel Mode */
