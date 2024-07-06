@@ -20,6 +20,15 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setUsername(storedUsername);
+      setIsAuthenticated(true);
+      setShowAuthPopup(false);
+    }
+  }, []);
+
+  useEffect(() => {
     if (isAuthenticated) {
       fetch("/api/tasks")
         .then((response) => {
@@ -108,6 +117,7 @@ export default function Home() {
       setUsername(username);
       setIsAuthenticated(true);
       setShowAuthPopup(false);
+      localStorage.setItem("username", username);
     } else {
       alert("Invalid credentials");
     }
