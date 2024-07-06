@@ -15,6 +15,7 @@ export default function Layout({ children }: LayoutProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showAuthPopup, setShowAuthPopup] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
+  const [completedCount, setCompletedCount] = useState(0);
   const router = useRouter();
 
   const toggleTheme = () => {
@@ -35,6 +36,11 @@ export default function Layout({ children }: LayoutProps) {
       setIsAuthenticated(true);
     }
     document.body.setAttribute("data-theme", darkMode ? "dark" : "pastel");
+
+    const storedCount = localStorage.getItem("completedCount");
+    if (storedCount) {
+      setCompletedCount(parseInt(storedCount, 10));
+    }
   }, [darkMode]);
 
   return (
@@ -62,7 +68,7 @@ export default function Layout({ children }: LayoutProps) {
                 {isAuthenticated && (
                   <button
                     onClick={handleLogout}
-                    className="px-4 py-2 bg-purple-700 text-white p-2  rounded-md hover:bg-purple-500"
+                    className="px-4 py-2 bg-purple-700 text-white p-2 rounded-md hover:bg-purple-500"
                   >
                     Log Out
                   </button>
@@ -73,7 +79,14 @@ export default function Layout({ children }: LayoutProps) {
           <main className="container">{children}</main>
           <footer className="bg-purple-900 text-white text-2xl p-4 mt-4">
             <div className="container text-center">
-              © 2024 Simple Task Manager. All rights reserved.
+              {isAuthenticated && (
+                <div className="text-3xl font-bold mb-2">
+                  Tasks completed by {username}: {completedCount}
+                </div>
+              )}
+              <div className="text-xl">
+                © 2024 Simple Task Manager. All rights reserved.
+              </div>
             </div>
           </footer>
         </Theme>

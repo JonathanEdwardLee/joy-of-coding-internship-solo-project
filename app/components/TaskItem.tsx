@@ -12,6 +12,7 @@ interface TaskItemProps {
     dueDate: string;
   }) => void;
   onDelete: (id: number) => void;
+  onComplete: (id: number) => void;
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({
@@ -21,22 +22,29 @@ const TaskItem: React.FC<TaskItemProps> = ({
   dueDate,
   onEdit,
   onDelete,
+  onComplete,
 }) => {
   return (
     <div className="my-4 p-4 border rounded-md shadow-sm bg-gray-700 text-white">
-      <p className="text-xl font-semibold">Name: {name}</p>
-      <p className="text-lg">Description: {description}</p>
-      <p className="text-md">Due: {new Date(dueDate).toLocaleDateString()}</p>
+      <p className="text-3xl font-semibold">Name: {name}</p>
+      <p className="text-3xl">Description: {description}</p>
+      <p className="text-3xl">Due: {new Date(dueDate).toLocaleDateString()}</p>
       <div className="mt-2 space-x-2">
         <button
           onClick={() => onEdit({ id, name, description, dueDate })}
-          className="px-4 py-2 bg-blue-500 text-white text-lg rounded-md"
+          className="px-4 py-2 bg-purple-700 text-white text-xl rounded-md"
         >
           Edit
         </button>
         <button
+          onClick={() => onComplete(id)}
+          className="px-4 py-2 bg-purple-700 text-white text-xl rounded-md"
+        >
+          Complete
+        </button>
+        <button
           onClick={() => onDelete(id)}
-          className="px-4 py-2 bg-red-500 text-white text-lg rounded-md"
+          className="px-4 py-2 bg-purple-700 text-white text-xl rounded-md"
         >
           Delete
         </button>

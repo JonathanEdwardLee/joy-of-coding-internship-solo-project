@@ -18,6 +18,7 @@ export default function TaskList() {
   const [filter, setFilter] = useState("");
   const [sortAscending, setSortAscending] = useState(true);
   const [username, setUsername] = useState<string | null>(null);
+  const [completedCount, setCompletedCount] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -34,6 +35,11 @@ export default function TaskList() {
     const storedUsername = localStorage.getItem("username");
     if (storedUsername) {
       setUsername(storedUsername);
+    }
+
+    const storedCount = localStorage.getItem("completedCount");
+    if (storedCount) {
+      setCompletedCount(parseInt(storedCount, 10));
     }
   }, []);
 
@@ -71,9 +77,14 @@ export default function TaskList() {
           });
         }
         setTasks(tasks.filter((task) => task.id !== id));
-        alert("Congrats on completing the task!");
       })
       .catch((error) => console.error("Error deleting task:", error.message));
+  };
+
+  const completeTask = (id: number) => {
+    deleteTask(id);
+    setCompletedCount(completedCount + 1);
+    localStorage.setItem("completedCount", (completedCount + 1).toString());
   };
 
   const handleEditTask = (task: Task) => {
@@ -122,7 +133,7 @@ export default function TaskList() {
         </button>
         <button
           onClick={() => router.push("/")}
-          className="px-4 py-2 bg-green-500 text-white text-2xl rounded-md"
+          className="px-4 py-2 bg-purple-900 text-white text-2xl rounded-md"
         >
           Add New Task
         </button>
@@ -136,6 +147,7 @@ export default function TaskList() {
           dueDate={task.dueDate}
           onEdit={handleEditTask}
           onDelete={deleteTask}
+          onComplete={completeTask}
         />
       ))}
       {editingTask && (
