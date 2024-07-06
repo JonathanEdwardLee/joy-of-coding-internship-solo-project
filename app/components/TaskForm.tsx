@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface TaskFormProps {
-  task?: { name: string; description: string; dueDate: string };
+  task?: { id?: number; name?: string; description: string; dueDate: string };
   onSave: (task: {
+    id?: number;
     name: string;
     description: string;
     dueDate: string;
@@ -10,13 +12,14 @@ interface TaskFormProps {
 }
 
 export default function TaskForm({ task, onSave }: TaskFormProps) {
-  const [name, setName] = useState(task ? task.name : "");
-  const [description, setDescription] = useState(task ? task.description : "");
-  const [dueDate, setDueDate] = useState(task ? task.dueDate : "");
+  const [name, setName] = useState(task?.name || "");
+  const [description, setDescription] = useState(task?.description || "");
+  const [dueDate, setDueDate] = useState(task?.dueDate || "");
+  const router = useRouter();
 
   useEffect(() => {
     if (task) {
-      setName(task.name);
+      setName(task.name || "");
       setDescription(task.description);
       setDueDate(task.dueDate);
     }
@@ -28,8 +31,8 @@ export default function TaskForm({ task, onSave }: TaskFormProps) {
       alert("Please fill in all fields.");
       return;
     }
-    console.log("Form submitted:", { name, description, dueDate });
     onSave({ name, description, dueDate });
+    router.push("/tasks");
   };
 
   return (
@@ -66,12 +69,21 @@ export default function TaskForm({ task, onSave }: TaskFormProps) {
           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-2xl"
         />
       </div>
-      <button
-        type="submit"
-        className="px-4 py-2 bg-purple-900 text-white text-2xl rounded-md"
-      >
-        Save Task
-      </button>
+      <div className="flex space-x-4">
+        <button
+          type="submit"
+          className="px-4 py-2 bg-purple-900 text-white text-2xl rounded-md hover:bg-purple-700"
+        >
+          Save Task
+        </button>
+        <button
+          type="button"
+          onClick={() => router.push("/tasks")}
+          className="px-4 py-2 bg-purple-900 text-white text-2xl rounded-md hover:bg-purple-700"
+        >
+          View Tasks
+        </button>
+      </div>
     </form>
   );
 }

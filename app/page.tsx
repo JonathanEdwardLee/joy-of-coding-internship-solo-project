@@ -42,15 +42,18 @@ export default function Home() {
     }
   }, [isAuthenticated]);
 
-  const addTask = (task: { description: string; dueDate: string }) => {
+  const addTask = (task: {
+    name: string;
+    description: string;
+    dueDate: string;
+  }) => {
     fetch("/api/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        description: task.description,
-        dueDate: task.dueDate,
+        ...task,
         username,
       }),
     })
@@ -104,7 +107,11 @@ export default function Home() {
       .catch((error) => console.error("Error deleting task:", error.message));
   };
 
-  const handleSaveTask = (task: { description: string; dueDate: string }) => {
+  const handleSaveTask = (task: {
+    name: string;
+    description: string;
+    dueDate: string;
+  }) => {
     if (editingTask) {
       updateTask({ ...editingTask, ...task });
     } else {
@@ -136,12 +143,6 @@ export default function Home() {
       )}
       <h1 className="text-4xl font-bold mb-4">Enter Your Task</h1>
       <TaskForm task={editingTask} onSave={handleSaveTask} />
-      <button
-        onClick={() => router.push("/tasks")}
-        className="px-4 py-2 bg-purple-900 text-white text-2xl rounded-md mt-4"
-      >
-        View Tasks
-      </button>
     </div>
   );
 }
