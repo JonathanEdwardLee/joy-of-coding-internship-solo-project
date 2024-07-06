@@ -17,17 +17,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ error: 'Error fetching task' });
     }
   } else if (req.method === 'PUT') {
-    const { description, dueDate, username } = req.body;
+    const { name, description, dueDate, username } = req.body;
 
     try {
       const updatedTask = await prisma.task.update({
         where: { id: Number(id) },
-        data: { description, dueDate: new Date(dueDate), username },
+        data: { name, description, dueDate: new Date(dueDate), username },
       });
       res.status(200).json(updatedTask);
     } catch (error) {
       console.error("Error updating task:", error);
-      res.status(500).json({ error: 'Error updating task' });
+      res.status500.json({ error: 'Error updating task' });
     }
   } else if (req.method === 'DELETE') {
     try {

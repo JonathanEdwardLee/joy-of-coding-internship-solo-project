@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ error: 'Error fetching tasks' });
     }
   } else if (req.method === 'POST') {
-    const { description, dueDate, username } = req.body;
+    const { name, description, dueDate, username } = req.body;
 
     try {
       const user = await prisma.user.findUnique({
@@ -26,6 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const newTask = await prisma.task.create({
         data: { 
+          name,
           description, 
           dueDate: new Date(dueDate), 
           user: { connect: { id: user.id } } 

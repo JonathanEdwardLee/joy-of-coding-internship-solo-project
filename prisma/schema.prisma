@@ -9,6 +9,7 @@ generator client {
 
 model Task {
   id          Int      @id @default(autoincrement())
+  name        String   @default("Unnamed Task")
   description String
   dueDate     DateTime
   userId      Int

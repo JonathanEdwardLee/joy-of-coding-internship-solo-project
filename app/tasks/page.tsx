@@ -31,7 +31,6 @@ export default function TaskList() {
       .then((data) => setTasks(data))
       .catch((error) => console.error("Error fetching tasks:", error));
 
-    // Assuming you store the username in localStorage when the user logs in
     const storedUsername = localStorage.getItem("username");
     if (storedUsername) {
       setUsername(storedUsername);

@@ -24,8 +24,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
 }) => {
   return (
     <div className="my-4 p-4 border rounded-md shadow-sm bg-gray-700 text-white">
-      <h3 className="text-xl font-semibold">{name}</h3>
-      <p className="text-lg">{description}</p>
+      <p className="text-xl font-semibold">Name: {name}</p>
+      <p className="text-lg">Description: {description}</p>
       <p className="text-md">Due: {new Date(dueDate).toLocaleDateString()}</p>
       <div className="mt-2 space-x-2">
         <button
