@@ -1,9 +1,9 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import TaskItem from "../components/TaskItem";
 import EditTaskPopup from "../components/EditTaskPopup";
 import { useRouter } from "next/navigation";
+import { useCompletedCount } from "../context/CompletedCountContext";
 
 interface Task {
   id: number;
@@ -18,7 +18,7 @@ export default function TaskList() {
   const [filter, setFilter] = useState("");
   const [sortAscending, setSortAscending] = useState(true);
   const [username, setUsername] = useState<string | null>(null);
-  const [completedCount, setCompletedCount] = useState(0);
+  const { setCompletedCount } = useCompletedCount();
   const router = useRouter();
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function TaskList() {
     if (storedCount) {
       setCompletedCount(parseInt(storedCount, 10));
     }
-  }, []);
+  }, [setCompletedCount]);
 
   const updateTask = (task: Task) => {
     fetch(`/api/tasks/${task.id}`, {
@@ -83,8 +83,11 @@ export default function TaskList() {
 
   const completeTask = (id: number) => {
     deleteTask(id);
-    setCompletedCount(completedCount + 1);
-    localStorage.setItem("completedCount", (completedCount + 1).toString());
+    setCompletedCount((prevCount) => {
+      const newCount = prevCount + 1;
+      localStorage.setItem("completedCount", newCount.toString());
+      return newCount;
+    });
   };
 
   const handleEditTask = (task: Task) => {
@@ -152,7 +155,7 @@ export default function TaskList() {
       ))}
       {editingTask && (
         <EditTaskPopup
-          task={editingTask}
+          task={{ ...editingTask, name: editingTask.name || "Unnamed Task" }}
           onSave={handleSaveTask}
           onClose={() => setEditingTask(null)}
         />

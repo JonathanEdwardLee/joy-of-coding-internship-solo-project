@@ -1,21 +1,33 @@
 "use client";
 
 import "./globals.css";
-import { ReactNode, useState, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Theme } from "@radix-ui/themes";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
+import {
+  CompletedCountProvider,
+  useCompletedCount,
+} from "@/app/context/CompletedCountContext";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
+  return (
+    <CompletedCountProvider>
+      <InnerLayout>{children}</InnerLayout>
+    </CompletedCountProvider>
+  );
+}
+
+function InnerLayout({ children }: LayoutProps) {
   const [darkMode, setDarkMode] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showAuthPopup, setShowAuthPopup] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
-  const [completedCount, setCompletedCount] = useState(0);
+  const { completedCount } = useCompletedCount();
   const router = useRouter();
 
   const toggleTheme = () => {
@@ -36,11 +48,6 @@ export default function Layout({ children }: LayoutProps) {
       setIsAuthenticated(true);
     }
     document.body.setAttribute("data-theme", darkMode ? "dark" : "pastel");
-
-    const storedCount = localStorage.getItem("completedCount");
-    if (storedCount) {
-      setCompletedCount(parseInt(storedCount, 10));
-    }
   }, [darkMode]);
 
   return (
