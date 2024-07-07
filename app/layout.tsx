@@ -28,10 +28,15 @@ function InnerLayout({ children }: LayoutProps) {
   const [showAuthPopup, setShowAuthPopup] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
   const { completedCount } = useCompletedCount();
+  const [isRoboto, setIsRoboto] = useState(false);
   const router = useRouter();
 
   const toggleTheme = () => {
     setDarkMode(!darkMode);
+  };
+
+  const toggleFont = () => {
+    setIsRoboto(!isRoboto);
   };
 
   const handleLogout = () => {
@@ -49,6 +54,19 @@ function InnerLayout({ children }: LayoutProps) {
     }
     document.body.setAttribute("data-theme", darkMode ? "dark" : "pastel");
   }, [darkMode]);
+
+  useEffect(() => {
+    if (isRoboto) {
+      const link = document.createElement("link");
+      link.href =
+        "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap";
+      link.rel = "stylesheet";
+      document.head.appendChild(link);
+      document.body.style.fontFamily = "'Roboto', sans-serif";
+    } else {
+      document.body.style.fontFamily = "";
+    }
+  }, [isRoboto]);
 
   return (
     <html lang="en">
@@ -68,14 +86,20 @@ function InnerLayout({ children }: LayoutProps) {
               <div className="flex items-center space-x-4">
                 <button
                   onClick={toggleTheme}
-                  className="px-4 py-2 bg-purple-700 text-white p-2 rounded-md hover:bg-purple-500"
+                  className="px-1 py-1 bg-purple-700 text-white text-xl p-2 rounded-md hover:bg-purple-500"
                 >
                   {darkMode ? "Pastel Mode" : "Dark Mode"}
+                </button>
+                <button
+                  onClick={toggleFont}
+                  className="px-1 py-1 bg-purple-700 text-white text-xl p-2 rounded-md hover:bg-purple-500"
+                >
+                  {isRoboto ? "Color Font" : "Normal Font"}
                 </button>
                 {isAuthenticated && (
                   <button
                     onClick={handleLogout}
-                    className="px-4 py-2 bg-purple-700 text-white p-2 rounded-md hover:bg-purple-500"
+                    className="px-1 py-1 bg-purple-700 text-white text-xl p-2 rounded-md hover:bg-purple-500"
                   >
                     Log Out
                   </button>
