@@ -1,7 +1,9 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import TaskItem from "../components/TaskItem";
 import EditTaskPopup from "../components/EditTaskPopup";
+import CompletionModal from "../components/CompletionModal";
 import { useRouter } from "next/navigation";
 import { useCompletedCount } from "../context/CompletedCountContext";
 
@@ -19,6 +21,7 @@ export default function TaskList() {
   const [sortAscending, setSortAscending] = useState(true);
   const [username, setUsername] = useState<string | null>(null);
   const { setCompletedCount } = useCompletedCount();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -88,6 +91,7 @@ export default function TaskList() {
       localStorage.setItem("completedCount", newCount.toString());
       return newCount;
     });
+    setIsModalOpen(true);
   };
 
   const handleEditTask = (task: Task) => {
@@ -160,6 +164,10 @@ export default function TaskList() {
           onClose={() => setEditingTask(null)}
         />
       )}
+      <CompletionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }
