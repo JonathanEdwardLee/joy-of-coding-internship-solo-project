@@ -34,7 +34,6 @@ Welcome to my Simple Task Manager! This was my solo project for the Joy of Codin
 
 ### Development and Deployment Tools
 
-- **[Vercel](https://vercel.com/)**: Deployment platform for frontend frameworks and static sites.
 - **[Visual Studio Code](https://code.visualstudio.com/)**: Code editor with powerful extensions for better development experience.
 - **[GitHub](https://github.com/)**: Version control and collaboration platform.
 
