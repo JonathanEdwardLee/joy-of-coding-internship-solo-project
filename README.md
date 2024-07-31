@@ -2,6 +2,8 @@
 
 Welcome to my Simple Task Manager! This was my solo project for the Joy of Coding Academy, required before internship. This project showcases a robust and user-friendly task management application built using cutting-edge technologies. This application allows users to manage their tasks efficiently with features like task creation, editing, deletion, and completion tracking.
 
+Video walkthrough of the Task Manager https://www.loom.com/share/5ee16b52359d4674a1699b98f360a71d
+
 ## Features
 
 - **User Authentication**: Secure user registration and login system.
